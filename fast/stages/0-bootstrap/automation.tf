@@ -363,7 +363,7 @@ module "automation-tf-tenant-factory-gcs" {
 }
 
 module "automation-tf-tenant-factory-sa" {
-  source       = "git@github.com:pbrumblay/gwids-tf-modules.git//iam-service-account"
+  source       = "../../../modules/iam-service-account"
   project_id   = module.automation-project.project_id
   name         = "tenant-factory-0"
   display_name = "Terraform stage 1 tenant-factory service account."
