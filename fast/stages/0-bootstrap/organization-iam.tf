@@ -173,6 +173,44 @@ locals {
         ]
       )
     }
+    (module.automation-tf-tenant-factory-sa.iam_email) = {
+      authoritative = [
+        "roles/essentialcontacts.admin",
+        "roles/logging.admin",
+        "roles/resourcemanager.folderAdmin",
+        "roles/resourcemanager.projectCreator",
+        "roles/resourcemanager.tagAdmin",
+        "roles/resourcemanager.tagUser"
+      ]
+      additive = concat(
+        [
+          "roles/accesscontextmanager.policyAdmin",
+          "roles/orgpolicy.policyAdmin"
+        ],
+        local.billing_mode != "org" ? [] : [
+          "roles/billing.admin"
+        ]
+      )
+    }
+    (module.automation-tf-tenant-factory-r-sa.iam_email) = {
+      authoritative = [
+        "roles/accesscontextmanager.policyReader",
+        "roles/essentialcontacts.viewer",
+        "roles/logging.viewer",
+        "roles/resourcemanager.folderViewer",
+        "roles/resourcemanager.tagViewer",
+        "roles/serviceusage.serviceUsageViewer"
+      ]
+      additive = concat(
+        [
+          # the organizationAdminViewer custom role is granted via the SA module
+          "roles/orgpolicy.policyViewer"
+        ],
+        local.billing_mode != "org" ? [] : [
+          "roles/billing.viewer"
+        ]
+      )
+    }     
   }
   # bootstrap user bindings
   iam_user_bootstrap_bindings = var.bootstrap_user == null ? {} : {
