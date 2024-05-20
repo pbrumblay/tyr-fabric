@@ -226,7 +226,7 @@ module "automation-tf-output-gcs" {
 # this stage's bucket and service account
 
 module "automation-tf-bootstrap-gcs" {
-  source        = "git@github.com:pbrumblay/gwids-tf-modules.git//gcs"
+  source        = "../../../modules/gcs"
   project_id    = module.automation-project.project_id
   name          = "iac-core-bootstrap-0"
   prefix        = local.prefix
